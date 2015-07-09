@@ -1,18 +1,9 @@
-var contentDisposition = require('content-disposition')
 var finalhandler = require('finalhandler')
 var http = require('http')
 var serveStatic = require('serve-static')
 
 // Serve up public/ftp folder
-var serve = serveStatic('public/ftp', {
-  'index': false,
-  'setHeaders': setHeaders
-})
-
-// Set header to force download
-function setHeaders(res, path) {
-  res.setHeader('Content-Disposition', contentDisposition(path))
-}
+var serve = serveStatic('src', {'index': ['index.html', 'index.htm']})
 
 // Create server
 var server = http.createServer(function(req, res){
