@@ -1,15 +1,16 @@
-var finalhandler = require('finalhandler')
-var http = require('http')
-var serveStatic = require('serve-static')
+var static = require( 'node-static' ),
+    port = 80,
+    http = require( 'http' );
 
-// Serve up public/ftp folder
-var serve = serveStatic('src', {'index': ['index.html', 'index.htm']})
+// config
+var file = new static.Server( './src', {
+    cache: 3600,
+    gzip: true
+} );
 
-// Create server
-var server = http.createServer(function(req, res){
-  var done = finalhandler(req, res)
-  serve(req, res, done)
-})
-
-// Listen
-server.listen(80)
+// serve
+http.createServer( function ( request, response ) {
+    request.addListener( 'end', function () {
+        file.serve( request, response );
+    } ).resume();
+} ).listen( port );
