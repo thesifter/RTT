@@ -1,0 +1,23 @@
+{
+  "name": "rtt",
+  "version": "1.0.0",
+  "description": "simple static project for deploy to s3 POC ",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:thesifter/RTT.git"
+  },
+  "keywords": [
+    "killer",
+    "mike",
+    "rtt"
+  ],
+  "author": "damen.hansen@xero.com",
+  "license": "ISC",
+  "dependencies": {
+    "node-static": ">=0.7.6"
+  },
+}
