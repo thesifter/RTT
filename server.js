@@ -1,19 +1,24 @@
-//Lets require/import the HTTP module
-var http = require('http');
+var contentDisposition = require('content-disposition')
+var finalhandler = require('finalhandler')
+var http = require('http')
+var serveStatic = require('serve-static')
 
-//Lets define a port we want to listen to
-const PORT=80; 
+// Serve up public/ftp folder
+var serve = serveStatic('public/ftp', {
+  'index': false,
+  'setHeaders': setHeaders
+})
 
-//We need a function which handles requests and send response
-function handleRequest(request, response){
-    response.end('It Works!! Path Hit: ' + request.url);
+// Set header to force download
+function setHeaders(res, path) {
+  res.setHeader('Content-Disposition', contentDisposition(path))
 }
 
-//Create a server
-var server = http.createServer(handleRequest);
+// Create server
+var server = http.createServer(function(req, res){
+  var done = finalhandler(req, res)
+  serve(req, res, done)
+})
 
-//Lets start our server
-server.listen(PORT, function(){
-    //Callback triggered when server is successfully listening. Hurray!
-    console.log("Server listening on: http://host:%s", PORT);
-});
+// Listen
+server.listen(80)
